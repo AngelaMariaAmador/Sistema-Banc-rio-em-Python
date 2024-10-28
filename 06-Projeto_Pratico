@@ -1,0 +1,99 @@
+from datetime import datetime
+
+class Banco:
+    def __init__(self):
+        self.saldo = 0
+        self.extrato = []
+        self.saques_diarios = 0
+        self.ultima_data = None
+        self.todos_depositos = []  # Variável para armazenar todos os depósitos
+
+    def atualizar_saque_diario(self):
+        # Reseta o contador de saques se for um novo dia
+        data_atual = datetime.now().date()
+        if self.ultima_data != data_atual:
+            self.saques_diarios = 0
+            self.ultima_data = data_atual
+
+    def sacar(self, valor):
+        # Atualiza os saques diários
+        self.atualizar_saque_diario()
+        if valor > 500:
+            print("Você só pode sacar até R$ 500 por vez.")
+        elif self.saques_diarios >= 3:
+            print("Você já realizou três saques hoje.")
+        elif valor > self.saldo:
+            print("Saldo insuficiente.")
+        else:
+            self.saldo -= valor
+            self.saques_diarios += 1
+            self.extrato.append(f"Saque: -R$ {valor:.2f}")
+            print(f"Você sacou R$ {valor:.2f}")
+
+    def depositar(self):
+        # Solicita o valor a ser depositado
+        while True:
+            valor = float(input("Informe o valor que deseja depositar (0 para sair): R$"))
+            if valor == 0:
+                break
+            elif valor <= 0:
+                print("Valor de depósito deve ser positivo.")
+            else:
+                self.saldo += valor
+                self.todos_depositos.append(valor)  # Armazena o depósito na variável
+                self.extrato.append(f"Depósito: +R$ {valor:.2f}")
+                print(f"Você depositou R$ {valor:.2f}")
+
+    def visualizar_extrato(self):
+        # Exibe todas as transações e o saldo atual
+        print("Extrato:")
+        for transacao in self.extrato:
+            print(transacao)
+        print("Todos os depósitos:")
+        for deposito in self.todos_depositos:
+            print(f"R$ {deposito:.2f}")
+        print(f"Saldo atual: R$ {self.saldo:.2f}")
+def main():
+    conta = Banco()
+    while True:
+        print("\nMenu:")
+        print("1. Depósito")
+        print("2. Saque")
+        print("3. Extrato")
+        print("4. Sair")
+
+        opcao = int(input("Escolha uma opção: "))
+
+        if opcao == 1:
+            conta.depositar()
+        elif opcao == 2:
+            valor = float(input("Informe o valor que deseja sacar: R$"))
+            conta.sacar(valor)
+        elif opcao == 3:
+            conta.visualizar_extrato()
+        elif opcao == 4:
+            print("Saindo do sistema. Até mais!")
+            break
+        else:
+            print("Opção inválida. Tente novamente.")
+
+
+"""
+def testar_sistema():
+    conta = Banco()
+    print("\nTestando Depósito...")
+    conta.depositar()  # Solicita ao usuário informar o valor dos depósitos
+
+    print("\nTestando Saques...")
+    conta.sacar(500)  # Primeiro saque de R$500
+    conta.sacar(500)  # Segundo saque de R$500
+    conta.sacar(500)  # Terceiro saque de R$500
+    conta.sacar(500)  # Tentativa de quarto saque, que deve ser bloqueada
+
+    print("\nVisualizando Extrato...")
+    conta.visualizar_extrato()  # Mostra o extrato, saldo atual e todos os depósitos
+"""
+# Inicia o sistema
+main()
+
+
