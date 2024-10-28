@@ -77,22 +77,6 @@ def main():
         else:
             print("Opção inválida. Tente novamente.")
 
-
-"""
-def testar_sistema():
-    conta = Banco()
-    print("\nTestando Depósito...")
-    conta.depositar()  # Solicita ao usuário informar o valor dos depósitos
-
-    print("\nTestando Saques...")
-    conta.sacar(500)  # Primeiro saque de R$500
-    conta.sacar(500)  # Segundo saque de R$500
-    conta.sacar(500)  # Terceiro saque de R$500
-    conta.sacar(500)  # Tentativa de quarto saque, que deve ser bloqueada
-
-    print("\nVisualizando Extrato...")
-    conta.visualizar_extrato()  # Mostra o extrato, saldo atual e todos os depósitos
-"""
 # Inicia o sistema
 main()
 
